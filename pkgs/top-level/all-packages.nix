@@ -19998,7 +19998,7 @@ with pkgs;
 
   wolfssl = callPackage ../development/libraries/wolfssl { };
 
-  openssl = openssl_1_1;
+  openssl = openssl_3_0;
 
   inherit (callPackages ../development/libraries/openssl { })
     openssl_1_1
