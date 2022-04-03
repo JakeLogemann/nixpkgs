@@ -1,4 +1,4 @@
-{ coreutils, db, fetchurl, openssl, pcre, perl, pkg-config, lib, stdenv
+{ coreutils, db, fetchurl, fetchpatch, openssl, pcre, perl, pkg-config, lib, stdenv
 , enableLDAP ? false, openldap
 , enableMySQL ? false, libmysqlclient, zlib
 , enableAuthDovecot ? false, dovecot
@@ -16,6 +16,14 @@ stdenv.mkDerivation rec {
     url = "https://ftp.exim.org/pub/exim/exim4/${pname}-${version}.tar.xz";
     sha256 = "0rzi0kc3qiiaw8vnv5qrpwdvvh4sr5chns026xy99spjzx9vd76c";
   };
+
+  patches = [
+    (fetchpatch {  # fetch build with openssl 3.0
+      url = "https://git.exim.org/exim.git/patch/ff7829398d";
+      sha256 = "033bypmv7acsyll77hmxrpazzmbajv22pjz8f88qld6gl7l1s19v";
+    })
+  ];
+  patchFlags = [ "-p2" ];
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [ coreutils db openssl perl pcre ]
